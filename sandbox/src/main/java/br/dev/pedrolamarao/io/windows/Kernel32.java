@@ -12,12 +12,23 @@ public final class Kernel32
 {
     public static final MemorySegment INVALID_HANDLE_VALUE = MemorySegment.ofAddress(-1);
 
+
     public static int CloseHandle (MemorySegment handle) throws Throwable
     {
         try (var arena = Arena.openConfined())
         {
             final var callState = arena.allocate(CaptureLastError.layout());
             final var result = (int) CloseHandle.invokeExact(callState,handle);
+            LastError.set( (int) GetLastError.get(callState) );
+            return result;
+        }
+    }
+    public static MemorySegment CreateIoCompletionPort (MemorySegment device, MemorySegment port, MemorySegment key, int concurrency) throws Throwable
+    {
+        try (var arena = Arena.openConfined())
+        {
+            final var callState = arena.allocate(CaptureLastError.layout());
+            final var result = (MemorySegment) CreateIoCompletionPort.invokeExact(callState,device,port,key,concurrency);
             LastError.set( (int) GetLastError.get(callState) );
             return result;
         }
@@ -34,6 +45,8 @@ public final class Kernel32
 
     private static final MethodHandle CloseHandle;
 
+    private static final MethodHandle CreateIoCompletionPort;
+
     private static final VarHandle GetLastError;
 
     static
@@ -43,6 +56,11 @@ public final class Kernel32
         CloseHandle = linker.downcallHandle(
             kernel32.find("CloseHandle").orElseThrow(),
             FunctionDescriptor.of(JAVA_INT,ADDRESS),
+            CaptureLastError
+        );
+        CreateIoCompletionPort = linker.downcallHandle(
+            kernel32.find("CreateIoCompletionPort").orElseThrow(),
+            FunctionDescriptor.of(ADDRESS,ADDRESS,ADDRESS,ADDRESS,JAVA_INT),
             CaptureLastError
         );
         GetLastError = CaptureLastError.layout().varHandle(MemoryLayout.PathElement.groupElement("GetLastError"));
