@@ -4,7 +4,6 @@ import org.junit.jupiter.api.Test;
 
 import java.lang.foreign.Arena;
 import java.lang.foreign.MemorySegment;
-import java.lang.foreign.ValueLayout;
 
 import static br.dev.pedrolamarao.io.windows.Kernel32.INVALID_HANDLE_VALUE;
 import static java.lang.foreign.MemorySegment.NULL;

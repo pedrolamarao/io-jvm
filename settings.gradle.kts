@@ -6,4 +6,4 @@ dependencyResolutionManagement {
 
 rootProject.name = "jvm-io"
 
-include("sandbox")
+include("windows")
