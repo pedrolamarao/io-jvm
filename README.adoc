@@ -1,0 +1,12 @@
+= jvm-io
+:Author: Pedro Lamarão <pedro.lamarao@gmail.com>
+
+The purpose of this project is to produce a new I/O library for the JVM designed for virtual thread applications over state of the art operating system primitives.
+
+This project shall design an I/O interface for completion-based I/O systems, in contrast with the standard interface which was designed for readiness-based I/O systems.
+
+This project shall produce a pure implementation with direct operating system bindings based on Project Panama's foreign function interface.
+
+This project shall provide two I/O interfaces: a low level asynchronous interface suitable for building frameworks and a high level synchronous interface suitable for building applications with support for Project Loom's virtual threads.
+
+This project shall provide a proof-of-concept implementation of Java's NIO.2 networking.
