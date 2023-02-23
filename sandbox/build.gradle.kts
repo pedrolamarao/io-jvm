@@ -14,6 +14,7 @@ tasks.withType<JavaCompile>().configureEach {
 }
 
 tasks.named<Test>("test").configure {
+    setForkEvery(1)
     jvmArgs = listOf("--enable-native-access=ALL-UNNAMED","--enable-preview")
     useJUnitPlatform()
 }

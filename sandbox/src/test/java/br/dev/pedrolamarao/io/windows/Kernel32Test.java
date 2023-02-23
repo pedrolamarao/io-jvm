@@ -2,14 +2,15 @@ package br.dev.pedrolamarao.io.windows;
 
 import org.junit.jupiter.api.Test;
 
+import static java.lang.foreign.MemorySegment.NULL;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class Kernel32Test
 {
     @Test
-    public void GetLastError () throws Throwable
+    public void CloseHandle () throws Throwable
     {
-        final var error = Kernel32.GetLastError();
-        assertEquals(0,error);
+        assertEquals( 0, Kernel32.CloseHandle(NULL) );
+        assertEquals( 6, Kernel32.GetLastError() );
     }
 }
